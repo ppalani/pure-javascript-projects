@@ -7,7 +7,7 @@ var cols=3;
 
 var img=new Image();
 img.onload=start;
-img.src="images/img_src (1).jpg";
+img.src="images/img_src (3).jpg";
 function start(){
 
     var iw=canvas.width=img.width;
