@@ -25,7 +25,7 @@ function cellcreator() {
     }
   }
 
- 
+
 
 }
 var imagearraylist = [];
@@ -41,39 +41,49 @@ class ImageArray {
 function splitimages() {
   var xcells = 4;
   var ycells = 4;
-
   var img = new Image();
   img.src = "images/img_src (4).jpg";
-
   var xlenght = img.width;
   var ylength = img.height;
   document.getElementById("split-images-area").width = xlenght;
   document.getElementById("split-images-area").height = ylength;
 
+  var cellwidth = xlenght / xcells;
+  var cellheight = ylength / ycells;
+
   for (var p = 0; p < 4; p++) {
-
     for (var k = 0; k < 4; k++) {
-
-      var canvascell = document.createElement("canvas");
-      var ctx = canvascell.getContext("2d");
-      var cellwidth = xlenght / xcells;
-      var cellheight = ylength / ycells;
-      canvascell.width = cellwidth;
-      canvascell.height = cellheight;
-      ctx.drawImage(img, k * cellwidth, p * cellheight, cellwidth, cellheight, 0, 0, cellwidth, cellheight);
-      var canelement = document.getElementById("split-images-area");
-      canelement.appendChild(canvascell);
       console.log('X--', (k * cellwidth), 'Y--', (p * cellheight));
-
       imagearraylist.push(new ImageArray((k * cellwidth), (p * cellheight)));
-
-
     }
-    var caele = document.getElementById("split-images-area");
-
-    caele.appendChild(document.createElement("br"));
-
   }
+
+
+
+
+
+  
+for(var k=0;k<(xcells*ycells);k++){
+
+  var canvascell = document.createElement("canvas");
+  var ctx = canvascell.getContext("2d");
+
+  canvascell.width = cellwidth;
+  canvascell.height = cellheight;
+  ctx.drawImage(img, imagearraylist[k].x, imagearraylist[k].y, cellwidth, cellheight, 0, 0, cellwidth, cellheight);
+  var canelement = document.getElementById("split-images-area");
+  canelement.appendChild(canvascell);
+
+if((k+1)%ycells===0){
+  var caele = document.getElementById("split-images-area");
+
+  caele.appendChild(document.createElement("br"));
+}
+
+
+}
+
+
 
 
 }
