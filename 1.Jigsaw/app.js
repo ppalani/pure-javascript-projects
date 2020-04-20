@@ -29,18 +29,31 @@ function cellcreator() {
 
 }
 var imagearraylist = [];
-class ImageArray {
+
+class orgCor{
   constructor(x, y) {
     this.x = x;
     this.y = y;
+  }
+}
+class sufcord{
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+}
+class ImageArray {
+  constructor(orgCor, sufcord) {
+    this.orgCor = orgCor;
+    this.sufcord = sufcord;
   }
 
 
 }
 
 function splitimages() {
-  var xcells = 4;
-  var ycells = 4;
+  var  xcells= 9;
+  var ycells = 9;
   var img = new Image();
   img.src = "images/img_src (4).jpg";
   var xlenght = img.width;
@@ -51,18 +64,29 @@ function splitimages() {
   var cellwidth = xlenght / xcells;
   var cellheight = ylength / ycells;
 
-  for (var p = 0; p < 4; p++) {
-    for (var k = 0; k < 4; k++) {
+  for (var p = 0; p < xcells; p++) {
+    for (var k = 0; k < ycells; k++) {
       console.log('X--', (k * cellwidth), 'Y--', (p * cellheight));
-      imagearraylist.push(new ImageArray((k * cellwidth), (p * cellheight)));
+      
+      imagearraylist.push(new ImageArray(new orgCor((k * cellwidth), (p * cellheight)),undefined));
     }
   }
 
-
-
-
-
+  var tmparray=[];
+  for(var k=0;k<(xcells*ycells);k++){
+    tmparray.push(k);
   
+  }
+console.log(tmparray);
+tmparray=shuffle(tmparray);
+console.log(tmparray);
+
+for(var k=0;k<(xcells*ycells);k++){
+  imagearraylist[k].sufcord=new sufcord(imagearraylist[tmparray[k]].orgCor.x,imagearraylist[tmparray[k]].orgCor.y);
+
+}
+
+
 for(var k=0;k<(xcells*ycells);k++){
 
   var canvascell = document.createElement("canvas");
@@ -70,7 +94,7 @@ for(var k=0;k<(xcells*ycells);k++){
 
   canvascell.width = cellwidth;
   canvascell.height = cellheight;
-  ctx.drawImage(img, imagearraylist[k].x, imagearraylist[k].y, cellwidth, cellheight, 0, 0, cellwidth, cellheight);
+  ctx.drawImage(img, imagearraylist[k].sufcord.x, imagearraylist[k].sufcord.y, cellwidth, cellheight, 0, 0, cellwidth, cellheight);
   var canelement = document.getElementById("split-images-area");
   canelement.appendChild(canvascell);
 
@@ -82,8 +106,6 @@ if((k+1)%ycells===0){
 
 
 }
-
-
 
 
 }
