@@ -30,13 +30,13 @@ function cellcreator() {
 }
 var imagearraylist = [];
 
-class orgCor{
+class orgCor {
   constructor(x, y) {
     this.x = x;
     this.y = y;
   }
 }
-class sufcord{
+class sufcord {
   constructor(x, y) {
     this.x = x;
     this.y = y;
@@ -48,64 +48,72 @@ class ImageArray {
     this.sufcord = sufcord;
   }
 
-
+   
 }
 
 function splitimages() {
-  var  xcells= 9;
-  var ycells = 9;
+  var xcells = 5;
+  var ycells = 5;
   var img = new Image();
-  img.src = "images/img_src (4).jpg";
+
+  img.src = "images/img_2.jpg";
   var xlenght = img.width;
   var ylength = img.height;
   document.getElementById("split-images-area").width = xlenght;
   document.getElementById("split-images-area").height = ylength;
-
   var cellwidth = xlenght / xcells;
   var cellheight = ylength / ycells;
+
+
+
+
+  
 
   for (var p = 0; p < xcells; p++) {
     for (var k = 0; k < ycells; k++) {
       console.log('X--', (k * cellwidth), 'Y--', (p * cellheight));
-      
-      imagearraylist.push(new ImageArray(new orgCor((k * cellwidth), (p * cellheight)),undefined));
+
+      imagearraylist.push(new ImageArray(new orgCor((k * cellwidth), (p * cellheight)), undefined));
     }
   }
 
-  var tmparray=[];
-  for(var k=0;k<(xcells*ycells);k++){
+  var tmparray = [];
+  for (var k = 0; k < (xcells * ycells); k++) {
     tmparray.push(k);
-  
+
   }
-console.log(tmparray);
-tmparray=shuffle(tmparray);
-console.log(tmparray);
+  console.log(tmparray);
+  tmparray = shuffle(tmparray);
+  console.log(tmparray);
 
-for(var k=0;k<(xcells*ycells);k++){
-  imagearraylist[k].sufcord=new sufcord(imagearraylist[tmparray[k]].orgCor.x,imagearraylist[tmparray[k]].orgCor.y);
+  for (var k = 0; k < (xcells * ycells); k++) {
+    imagearraylist[k].sufcord = new sufcord(imagearraylist[tmparray[k]].orgCor.x, imagearraylist[tmparray[k]].orgCor.y);
 
-}
-
-
-for(var k=0;k<(xcells*ycells);k++){
-
-  var canvascell = document.createElement("canvas");
-  var ctx = canvascell.getContext("2d");
-
-  canvascell.width = cellwidth;
-  canvascell.height = cellheight;
-  ctx.drawImage(img, imagearraylist[k].sufcord.x, imagearraylist[k].sufcord.y, cellwidth, cellheight, 0, 0, cellwidth, cellheight);
+  }
   var canelement = document.getElementById("split-images-area");
-  canelement.appendChild(canvascell);
-
-if((k+1)%ycells===0){
-  var caele = document.getElementById("split-images-area");
-
-  caele.appendChild(document.createElement("br"));
-}
+  while (canelement.lastElementChild) {
+    canelement.removeChild(canelement.lastElementChild);
+  }
+  for (var k = 0; k < (xcells * ycells); k++) {
+    var canelement = document.getElementById("split-images-area");
 
 
-}
+
+    var canvascell = document.createElement("canvas");
+    var ctx = canvascell.getContext("2d");
+
+    canvascell.width = cellwidth;
+    canvascell.height = cellheight;
+    ctx.drawImage(img, imagearraylist[k].sufcord.x, imagearraylist[k].sufcord.y, cellwidth, cellheight, 0, 0, cellwidth, cellheight);
+
+    canelement.appendChild(canvascell);
+
+    if ((k + 1) % ycells === 0) {
+      canelement.appendChild(document.createElement("br"));
+    }
+
+
+  }
 
 
 }
